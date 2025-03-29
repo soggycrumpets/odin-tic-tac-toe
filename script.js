@@ -166,10 +166,6 @@ function Display(playerName1, playerName2) {
             return;
         }
 
-        if (game.checkWinner() !== "") {
-            return;
-        }
-
         let activePlayer = game.getActivePlayer();
         if (game.doRound(row, col)) {
             spaceElement.textContent = activePlayer.symbol;
