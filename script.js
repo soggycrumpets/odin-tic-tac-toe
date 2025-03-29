@@ -110,6 +110,7 @@ function Game() {
         return "";
     }
 
+    // If all 3 spaces' symbols match, return that symbol
     const checkSpaces = function (space1, space2, space3) {
         if (space1 === space2 && space2 === space3) {
             return space1;
@@ -130,21 +131,21 @@ function Game() {
     return { doRound, getActivePlayer, checkWinner, reset, getBoard, player1, player2 }
 }
 
-function Display(playerName1, playerName2) {
-    const createBoardSpaces = function () {
-        const boardSpaces = Array.from(Array(3), () => new Array(3));
+function Display() {
+    const createBoardSpaceElements = function () {
+        const boardSpaceElements = Array.from(Array(3), () => new Array(3));
         const boardElement = document.querySelector(".gameboard")
 
         const board = game.getBoard();
         for (let row = 0; row < board.length; row++) {
             for (let col = 0; col < board[0].length; col++) {
-                const spaceElement = document.createElement("div");
-                boardElement.appendChild(spaceElement);
-                boardSpaces[row][col] = spaceElement;
+                const boardSpaceElement = document.createElement("div");
+                boardElement.appendChild(boardSpaceElement);
+                boardSpaceElements[row][col] = boardSpaceElement;
             }
         }
 
-        return boardSpaces;
+        return boardSpaceElements;
     }
 
     const addEventListeners = function () {
@@ -220,17 +221,16 @@ function Display(playerName1, playerName2) {
             return;
         }
 
-        displayMessage.textContent = 
-            `${game.checkWinner().name} won!`;
+        displayMessage.textContent = `${winner.name} won!`;
     }
 
+    let gameIsRunning = false;
     const game = Game();
     const displayMessage = document.querySelector(".display-message");
     const startSection = document.querySelector(".start");
     const startButton = document.querySelector(".start-button");
     const resetButton = document.querySelector(".reset-button");
-    let gameIsRunning = false;
-    const boardSpaces = createBoardSpaces();
+    const boardSpaces = createBoardSpaceElements();
 
     addEventListeners();
     displayMessage.textContent = "Enter your names (optional) and press \"Start\" to begin!"
