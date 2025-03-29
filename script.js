@@ -1,5 +1,3 @@
-Display();
-
 function Player(playerName, playerSymbol) {
     let name = playerName;
     let symbol = playerSymbol;
@@ -7,7 +5,7 @@ function Player(playerName, playerSymbol) {
     return { name, symbol };
 }
 
-function Board() {
+const gameBoard = (function Board() {
     const board = [
         ["", "", ""],
         ["", "", ""],
@@ -35,11 +33,10 @@ function Board() {
     }
 
     return { mark, reset, get }
-}
+})();
 
-function Game() {
+const game = (function Game() {
     let round = 0;
-    const gameBoard = Board();
     const player1 = Player("player1", "X");
     const player2 = Player("player2", "O");
 
@@ -100,7 +97,7 @@ function Game() {
         if (winningSymbol !== "") {
             return winningSymbol;
         }
-
+            
         // Check diagonal 2
         winningSymbol = checkSpaces(board[2][0], board[1][1], board[0][2]);
         if (winningSymbol !== "") {
@@ -110,7 +107,7 @@ function Game() {
         return "";
     }
 
-    // If all 3 spaces' symbols match, return that symbol
+    // If all 3 spaces' symbols match, returns that symbol
     const checkSpaces = function (space1, space2, space3) {
         if (space1 === space2 && space2 === space3) {
             return space1;
@@ -129,9 +126,9 @@ function Game() {
     }
 
     return { doRound, getActivePlayer, checkWinner, reset, getBoard, player1, player2 }
-}
+})();
 
-function Display() {
+(function Display() {
     const createBoardSpaceElements = function () {
         const boardSpaceElements = Array.from(Array(3), () => new Array(3));
         const boardElement = document.querySelector(".gameboard")
@@ -225,7 +222,6 @@ function Display() {
     }
 
     let gameIsRunning = false;
-    const game = Game();
     const displayMessage = document.querySelector(".display-message");
     const startSection = document.querySelector(".start");
     const startButton = document.querySelector(".start-button");
@@ -234,4 +230,4 @@ function Display() {
 
     addEventListeners();
     displayMessage.textContent = "Enter your names (optional) and press \"Start\" to begin!"
-}
+})();
