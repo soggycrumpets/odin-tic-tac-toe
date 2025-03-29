@@ -1,9 +1,4 @@
-init();
-
-function init() {
-    const display = Display("thing1", "thing2");
-
-}
+Display();
 
 function Player(playerName, playerSymbol) {
     let name = playerName;
@@ -68,6 +63,9 @@ function Game() {
     const checkWinner = function () {
         const winningSymbol = getWinningSymbol();
         if (winningSymbol === "") {
+            if (round >= 9) {
+                return "tie";
+            }
             return "";
         }
 
@@ -177,13 +175,15 @@ function Display(playerName1, playerName2) {
             spaceElement.textContent = activePlayer.symbol;
         }
 
-        displayActivePlayer;
-        if (game.checkWinner() !== "") {
+        displayActivePlayer();
+        const winner = game.checkWinner();
+        if (winner !== "") {
             gameIsRunning = false;
-            displayWinner();
+            displayWinner(winner);
             resetButton.style.visibility = "visible";
             return;
         }
+
     }
 
     const reset = function () {
@@ -195,7 +195,7 @@ function Display(playerName1, playerName2) {
         }
         gameIsRunning = true;
         resetButton.style.visibility = "hidden";
-        displayMessage.textContent = "";
+        displayActivePlayer();
     }
 
     const startGame = function () {
@@ -210,25 +210,32 @@ function Display(playerName1, playerName2) {
             game.player2.name = player2NameInput;
         }
         gameIsRunning = true;
+        displayActivePlayer();
     }
 
     const displayActivePlayer = function () {
-        activePlayerElement.textContent = gameIsRunning ?
+        displayMessage.textContent = gameIsRunning ?
             `${game.getActivePlayer().name}'s turn!` : "";
     }
 
-    const displayWinner = function () {
-        activePlayerElement.textContent = gameIsRunning ?
-            `${game.checkWinner().name} won!` : "";
+    const displayWinner = function (winner) {
+        if (winner === "tie") {
+            displayMessage.textContent = "It's a tie!";
+            return;
+        }
+
+        displayMessage.textContent = 
+            `${game.checkWinner().name} won!`;
     }
 
     const game = Game();
-    const activePlayerElement = document.querySelector(".active-player");
-    const winnerElement = document.querySelector(".display-winner");
+    const displayMessage = document.querySelector(".display-message");
     const startSection = document.querySelector(".start");
     const startButton = document.querySelector(".start-button");
     const resetButton = document.querySelector(".reset-button");
     let gameIsRunning = false;
     const boardSpaces = createBoardSpaces();
+
     addEventListeners();
+    displayMessage.textContent = "Enter your names (optional) and press \"Start\" to begin!"
 }
