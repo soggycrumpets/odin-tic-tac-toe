@@ -121,11 +121,7 @@ const game = (function Game() {
         round = 0;
     }
 
-    const getBoard = function () {
-        return gameBoard.get();
-    }
-
-    return { doRound, getActivePlayer, checkWinner, reset, getBoard, player1, player2 }
+    return { doRound, getActivePlayer, checkWinner, reset, player1, player2 }
 })();
 
 (function Display() {
@@ -133,7 +129,7 @@ const game = (function Game() {
         const boardSpaceElements = Array.from(Array(3), () => new Array(3));
         const boardElement = document.querySelector(".gameboard")
 
-        const board = game.getBoard();
+        const board = gameBoard.get();
         for (let row = 0; row < board.length; row++) {
             for (let col = 0; col < board[0].length; col++) {
                 const boardSpaceElement = document.createElement("div");
@@ -177,7 +173,6 @@ const game = (function Game() {
             resetButton.style.visibility = "visible";
             return;
         }
-
     }
 
     const reset = function () {
